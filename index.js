@@ -1,5 +1,5 @@
 import { gql, request, GraphQLClient } from 'graphql-request'
-import { QueryProfessorData, QueryTeacherSearch } from './gql-queries.js';
+import { QueryAllProfessors } from './graphql/QueryAllProfessors.js';
 import util from 'util'
 import fs from 'fs';
 
@@ -22,15 +22,11 @@ const FetchAllProfessors = async (schoolID) => {
       Authorization: AUTHORIZATION_TOKEN,
     },
     body: JSON.stringify({
-      query: QueryTeacherSearch,
+      query: QueryAllProfessors,
       variables: {
         query: {
-            text: "",
             schoolID,
-            fallback: true,
-            departmentID: null
-        },
-        schoolID
+        }
     }
     }),
   });
@@ -38,8 +34,8 @@ const FetchAllProfessors = async (schoolID) => {
   let professorList = data.data.search.teachers.edges
   professorList = professorList.map(prof => prof.node)
   console.log('Total professors: ', professorList.length)
-  cacheProfessorList(professorList)
-  // console.log(util.inspect(professorList, false, null, true))
+  // cacheProfessorList(professorList)
+  console.log(util.inspect(professorList, false, null, true))
 }
 
 const cacheProfessorList = (professors) => {
