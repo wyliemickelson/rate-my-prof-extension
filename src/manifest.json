@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Rate My Professor Helper",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "index.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "hello.html",
+    "default_icon": "hello.png"
+  }
+}
