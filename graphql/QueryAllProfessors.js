@@ -3,7 +3,7 @@ import { gql } from 'graphql-request'
 export const QueryAllProfessors = gql`
 query ($query: TeacherSearchQuery!) {
   search: newSearch {
-    teachers(query: $query, first: 5) {
+    teachers(query: $query) {
       edges {
         node {
           ... on Teacher {
