@@ -1,11 +1,11 @@
 {
-  "name": "y",
+  "name": "rate-my-prof-helper",
   "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/fetching.js"
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",
