@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "build": "webpack --config webpack.config.cjs --mode production"
+    "build-dev": "webpack --config webpack.config.cjs --mode development",
+    "build-prod": "webpack --config webpack.config.cjs --mode production"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "graphql-request": "^6.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx-source": "^7.22.5",
     "babel-core": "^6.26.3",
     "babel-loader": "^9.1.3",
     "babel-preset-env": "^1.7.0",

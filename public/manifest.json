@@ -6,6 +6,7 @@
   "permissions": [
     "storage"
   ],
+  "host_permissions": ["https://www.ratemyprofessors.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "hello.png"
