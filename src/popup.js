@@ -1,14 +1,11 @@
 import { FetchAllProfessors, FetchSchoolNames } from "./fetching.js"
-import { WWUID } from "./constants.js"
-
-// FetchAllProfessors(WWUID)
-// FetchSchoolNames('western wa')
+import { cache } from "./cache.js"
 
 const schoolInput = document.getElementById('schoolQuery')
 const searchSchoolBtn = document.getElementById('searchSchoolBtn')
 const confirmBtn = document.getElementById('confirmBtn')
 const shownSchools = document.getElementById('shownSchools')
-const currentSchool = document.getElementById('currentSchool')
+const chosenSchool = document.getElementById('currentSchool')
 let updateable = true
 
 const updateResults = async () => {
@@ -21,8 +18,8 @@ const updateResults = async () => {
     li.setAttribute('data-id', school.id)
     li.innerText = school.name
     li.addEventListener('click', (e) => {
-      currentSchool.innerText = e.target.innerText
-      currentSchool.setAttribute('data-id', e.target.getAttribute('data-id'))
+      chosenSchool.innerText = e.target.innerText
+      chosenSchool.setAttribute('data-id', e.target.getAttribute('data-id'))
     })
     shownSchools.appendChild(li)
   })
@@ -30,25 +27,20 @@ const updateResults = async () => {
 
 const retrieveProfessors = async () => {
   // get OLD schoolId from storage
-  let oldSchoolID = await chrome.storage.local.get('currentSchoolID').then((obj) => obj.currentSchoolID)
-  const newSchoolID = currentSchool.getAttribute('data-id')
+  const currentSchoolID = await cache.getSchoolID()
+  const newSchoolID = chosenSchool.getAttribute('data-id')
   // if id is not the same, clear cache and retrieve new professors
-  console.log(oldSchoolID, newSchoolID)
+  console.log(currentSchoolID, newSchoolID)
 
   const oldProfessorList = await chrome.storage.local.get('professorList')
   console.log(oldProfessorList)
-  if (!newSchoolID || (oldSchoolID === newSchoolID)) return
-  chrome.storage.local.clear()
-  await chrome.storage.local.set({ currentSchoolID: newSchoolID })
-
+  if (!newSchoolID || (currentSchoolID === newSchoolID)) return
+  cache.clear()
   const newProfessorList = await FetchAllProfessors(newSchoolID)
-  await chrome.storage.local.set({ professorList: newProfessorList })
 
-  // console.log(professorList)
+  await cache.updateSchoolID(newSchoolID)
+  await cache.updateProfessorList(newProfessorList)
 }
 
 searchSchoolBtn.addEventListener('click', updateResults)
 confirmBtn.addEventListener('click', retrieveProfessors)
-// schoolInput.addEventListener('keydown', () => {
-
-// })
