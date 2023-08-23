@@ -6,12 +6,8 @@
   "permissions": [
     "storage"
   ],
-  "background": {
-    "service_worker": "index.js",
-    "type": "module"
-  },
   "action": {
-    "default_popup": "hello.html",
+    "default_popup": "popup.html",
     "default_icon": "hello.png"
   }
 }
