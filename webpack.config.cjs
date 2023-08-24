@@ -4,7 +4,9 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    popup: './src/popup.js'
+    popup: './src/popup.js',
+    content: './src/content.js',
+    background: './src/background.js',
   },
   module: {
     rules: [
