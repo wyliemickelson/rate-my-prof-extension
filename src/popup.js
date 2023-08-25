@@ -5,6 +5,7 @@ const schoolInput = document.getElementById('schoolQuery')
 const confirmBtn = document.getElementById('confirmBtn')
 const shownSchools = document.getElementById('shownSchools')
 const chosenSchool = document.getElementById('currentSchool')
+const scanPageBtn = document.getElementById('scan')
 
 const initialize = async () => {
   const cachedSchool = await cache.getSchool()
@@ -67,5 +68,12 @@ const handleConfirm = () => {
 
 schoolInput.addEventListener('keydown', debouncedUpdateResults)
 confirmBtn.addEventListener('click', handleConfirm)
+scanPageBtn.addEventListener('click', () => {
+  console.log('click')
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { message: 'scan page' }
+    );
+  });
+})
 
 initialize()
