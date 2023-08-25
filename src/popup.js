@@ -47,7 +47,9 @@ const retrieveProfessors = async () => {
   })
 }
 
-function debounce(func, timeout = 300){
+// when clicking school li elements, 
+
+const debounce = (func, timeout = 300) => {
   let timer;
   return (...args) => {
     clearTimeout(timer);
@@ -57,7 +59,13 @@ function debounce(func, timeout = 300){
 
 const debouncedUpdateResults = debounce(() => updateResults());
 
+const handleConfirm = () => {
+  shownSchools.innerHTML = ''
+  schoolInput.value = ''
+  retrieveProfessors()
+}
+
 schoolInput.addEventListener('keydown', debouncedUpdateResults)
-confirmBtn.addEventListener('click', retrieveProfessors)
+confirmBtn.addEventListener('click', handleConfirm)
 
 initialize()
