@@ -3,10 +3,10 @@ export const cache = {
     chrome.storage.local.clear()
   },
   getSchool: async () => {
-    return await chrome.storage.local.get('schoolID').then(obj => obj.schoolID)
+    return await chrome.storage.local.get('currentSchool').then(obj => obj.currentSchool)
   },
-  updateSchool: async (newID) => {
-    await chrome.storage.local.set({ schoolID: newID })
+  updateSchool: async (newSchool) => {
+    await chrome.storage.local.set({ currentSchool: newSchool })
   },
   getProfessorList: async () => {
     return await chrome.storage.local.get('professorList').then(obj => obj.professorList)

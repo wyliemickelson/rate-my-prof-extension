@@ -2,15 +2,13 @@ import { cache } from "./cache.js"
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
-    console.log(request)
-    fetchSchool().then(id => sendResponse(id));
+    if (request.message === 'retrieve professors') {
+      console.log(request)
+      cache.getProfessorList().then(id => sendResponse(id));
+    }
     return true
   }
 )
-
-const fetchSchool = async () => {
-  return await cache.getSchoolID()
-}
 
 // chrome.tabs.onActivated.addListener(async () => {
 //   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
