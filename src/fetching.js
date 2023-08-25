@@ -1,5 +1,5 @@
-import { QueryAllProfessors } from '../graphql/QueryAllProfessors.js';
-import { QuerySchools } from '../graphql/QuerySchools.js';
+import { QueryAllProfessors } from './graphql/QueryAllProfessors.js';
+import { QuerySchools } from './graphql/QuerySchools.js';
 import { GraphQLClient } from 'graphql-request'
 import { API_URL, AUTHORIZATION_TOKEN } from './constants.js';
 

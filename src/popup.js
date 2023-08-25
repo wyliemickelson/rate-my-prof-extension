@@ -6,7 +6,12 @@ const searchSchoolBtn = document.getElementById('searchSchoolBtn')
 const confirmBtn = document.getElementById('confirmBtn')
 const shownSchools = document.getElementById('shownSchools')
 const chosenSchool = document.getElementById('currentSchool')
-let updateable = true
+
+const displaySavedSchool = async () => {
+  const cachedSchool = await cache.getSchool()
+  chosenSchool.innerText = cachedSchool?.name ?? 'None'
+}
+displaySavedSchool()
 
 const updateResults = async () => {
   shownSchools.innerHTML = ''
@@ -27,18 +32,21 @@ const updateResults = async () => {
 
 const retrieveProfessors = async () => {
   // get OLD schoolId from storage
-  const currentSchoolID = await cache.getSchoolID()
-  const newSchoolID = chosenSchool.getAttribute('data-id')
+  const currentSchool = await cache.getSchool()
+  const newSchool = {
+    name: chosenSchool.innerText,
+    id: chosenSchool.getAttribute('data-id')
+  }
   // if id is not the same, clear cache and retrieve new professors
-  console.log(currentSchoolID, newSchoolID)
+  console.log(currentSchool?.id, newSchool.id)
 
   const oldProfessorList = await chrome.storage.local.get('professorList')
   console.log(oldProfessorList)
-  if (!newSchoolID || (currentSchoolID === newSchoolID)) return
+  if (currentSchool?.id === newSchool.id) return
   cache.clear()
-  const newProfessorList = await FetchAllProfessors(newSchoolID)
+  const newProfessorList = await FetchAllProfessors(newSchool.id)
 
-  await cache.updateSchoolID(newSchoolID)
+  await cache.updateSchool(newSchool)
   await cache.updateProfessorList(newProfessorList)
 }
 
