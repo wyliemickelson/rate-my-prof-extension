@@ -3,14 +3,17 @@ chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     if (request.message === 'scan page') {
       console.log('scanning')
-      scanPage()
+      chrome.runtime.sendMessage({ message: 'retrieve professors' }, (profList) => scanPage(profList))
     }
   }
 )
 // look into mutationObserver for changing webpages
 
 const scanPage = (profList) => {
-  const profNames = ['Glimm']
+  console.log(profList)
+  if (!profList) return
+  const profNames = profList.map(prof => prof.lastName.toLowerCase())
+  console.log(profNames)
   // let regex = new RegExp(`${profNames.join("|")}(?![^<]*>)`, 'gi')
   // let replaced = documentText.replaceAll(regex, '<span style="color:red">$&</span>')
 
@@ -34,7 +37,7 @@ const scanPage = (profList) => {
     for (const n of textNodes) {
       const fragment = document.createDocumentFragment();
       for (const s of n.nodeValue.split(/(\s+)/)) {
-        if (s.trim() && s.includes('Glimm')) {
+        if (s.trim() && profNames.includes(s.replace(/[\W_]+/g, "").toLowerCase())) {
           span.firstChild.nodeValue = s;
           fragment.appendChild(span.cloneNode(true));
         } else {
