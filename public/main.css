@@ -1,5 +1,20 @@
-.rmp-helper-prof, .highlight {
+.rmp-helper-highlight {
   color: red;
+}
+
+.rmp-helper-hidden {
+  display: none !important;
+}
+
+.rmp-helper-rating {
+  width: fit-content;
+  position: relative;
+}
+
+.rmp-helper-rating-text {
+  width: fit-content;
+  background-color: rgb(255, 241, 112);
+  padding: 0.3rem;
 }
 
 .rmp-helper-popup, .rmp-helper-popup * {
@@ -12,6 +27,8 @@
 }
 
 .rmp-helper-popup {
+  position: absolute;
+  z-index: 1;
   border: 3px solid green;
   padding: 1rem;
   width: fit-content;
