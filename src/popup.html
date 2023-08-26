@@ -1,4 +1,7 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="../public/main.css">
+  </head>
   <body>
     <h1>RMP Helper</h1>
     <button id="scan">Scan Page</button>
@@ -8,5 +11,41 @@
       <input placeholder="Search schools..." type="text" id="schoolQuery" />
     </div>
     <ul id="shownSchools"></ul>
+
+    <div class="rmp-helper-popup">
+      <h3 class="rmp-helper-popup-name">Markosian, Ned</h3>
+      <p class="rmp-helper-popup-department">Philosophy</p>
+      <div class="rmp-helper-popup-rating">
+        <div class="rmp-helper-popup-score">3.9</div>
+        <div class="rmp-divider"></div>
+        <p class="rmp-helper-popup-reviews">67 review(s)</p>
+      </div>
+      <div class="rmp-helper-popup-difficulty">
+        <p>Level of Difficulty</p>
+        <div class="rmp-helper-difficulty-wrapper">
+          <div class="rmp-helper-bar-outer">
+            <div class="rmp-helper-bar-inner"></div>
+          </div>
+          <p>3.0 / 5.0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- {
+      "avgDifficulty": 3,
+      "avgRating": 3.9,
+      "department": "Philosophy",
+      "firstName": "Ned",
+      "id": "VGVhY2hlci0xMzIyMg==",
+      "lastName": "Markosian",
+      "legacyId": 13222,
+      "numRatings": 67,
+      "school": {
+          "id": "U2Nob29sLTExODQ=",
+          "name": "Western Washington University"
+      },
+      "wouldTakeAgainPercent": -1
+  } -->
+
   </body>
 </html>

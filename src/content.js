@@ -14,17 +14,47 @@ const formatNames = (profList, format) => {
   return profList.map(prof => format.replace('lastName', prof.lastName).replace('firstName', prof.firstName))
 }
 
-const createPopup = (profIndexes, profList) => {
-  if (profIndexes.length === 1) {
-    // only one professor exists
-    const prof = profList[profIndexes[0]]
-    console.log(prof)
-  } else {
-    // there are multiple professors
-    console.log('multiple found', profIndexes)
-  }
+const createPopup = (prof) => {
+  const popup = `
+  <div class="rmp-helper-popup">
+    <h3 class="rmp-helper-popup-name">${prof.lastName}, ${prof.firstName}</h3>
+    <p class="rmp-helper-popup-department">${prof.department}</p>
+    <div class="rmp-helper-popup-rating">
+      <div class="rmp-helper-popup-score">${prof.avgRating}</div>
+      <div class="rmp-divider"></div>
+      <p class="rmp-helper-popup-reviews">${prof.numRatings} review(s)</p>
+    </div>
+    <div class="rmp-helper-popup-difficulty">
+      <p>Level of Difficulty</p>
+      <div class="rmp-helper-difficulty-wrapper">
+        <div class="rmp-helper-bar-outer">
+          <div class="rmp-helper-bar-inner"></div>
+        </div>
+        <p>${prof.avgDifficulty} / 5.0</p>
+      </div>
+    </div>
+  </div>`
+
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = popup
+  // const popupCard = document.createElement('div')
+  // popupCard.classList.add('rmp-helper-popup')
+
+  // const popupName = document.createElement('h3')
+  // popupName.classList.add('rmp-helper-popup-name')
+  // popupCard.appendChild(popupName)
+
+  // const popupDepartment = document.createElement('p')
+  // popupDepartment.classList.add('rmp-helper-popup-department')
+  // popupCard.appendChild(popupDepartment)
+
+  // const popupRating = document.createElement('div')
+  // popupRating.classList.add
+
+  return wrapper
 }
 
+// https://stackoverflow.com/questions/31275446/how-to-wrap-part-of-a-text-in-a-node-with-javascript
 const highlightPage = (profList, format = 'firstName lastName') => {
   const profNames = formatNames(profList, format)
   const regex = new RegExp(`(${profNames.join('|')})`, 'g')
@@ -40,7 +70,6 @@ const highlightPage = (profList, format = 'firstName lastName') => {
     });
     text += node.nodeValue
   }
-  console.log(nodes)
 
   if (!nodes.length)
     return;
@@ -90,8 +119,13 @@ const highlightPage = (profList, format = 'firstName lastName') => {
         let ratingNode = document.createElement("div");
         ratingNode.className = 'rmp-helper-rating'
         node.textNode.parentNode.insertBefore(ratingNode, node.textNode)
-        // obtain professor data here
-        ratingNode.appendChild(document.createTextNode('Rating'))
+
+        // obtain professor data
+        const name = match[0]
+        const profIndex = profNames.indexOf(name)
+        const profData = profList[profIndex]
+        const popup = createPopup(profData)
+        ratingNode.appendChild(popup)
         ratingInserted = true
       }
 
@@ -100,7 +134,6 @@ const highlightPage = (profList, format = 'firstName lastName') => {
       node.textNode.parentNode.replaceChild(spanNode, node.textNode);
       spanNode.appendChild(node.textNode);
     }
-    console.log(node)
   }
 }
 
@@ -149,11 +182,3 @@ const highlightPage = (profList, format = 'firstName lastName') => {
 //     }
 //   }
 // }
-
-const getAllIndexes = (arr, val) => {
-  let indexes = [], i = -1;
-  while ((i = arr.indexOf(val, i + 1)) != -1) {
-    indexes.push(i);
-  }
-  return indexes;
-}

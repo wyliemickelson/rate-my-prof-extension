@@ -2,6 +2,77 @@
   color: red;
 }
 
-.rmp-helper-rating {
+.rmp-helper-popup, .rmp-helper-popup * {
+  /* border: 1px solid red; */
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-style: inherit;
+}
+
+.rmp-helper-popup {
+  border: 3px solid green;
+  padding: 1rem;
+  width: fit-content;
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+
+}
+
+.rmp-divider {
+  border-right: 1px solid black;
+  height: 15px;
+}
+
+.rmp-helper-popup-name {
+  font-weight: bold;
+}
+
+.rmp-helper-popup-department {
+  color: gray;
+  font-size: 0.87em;
+}
+
+.rmp-helper-popup-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rmp-helper-popup-score {
+  background-color: rgb(255, 241, 112);
+  padding: 0.3rem;
+}
+
+.rmp-helper-popup-reviews {
+
+}
+
+.rmp-helper-popup-difficulty p {
+  margin-bottom: 0.2rem;
+}
+
+.rmp-helper-difficulty-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rmp-helper-bar-outer {
+  background-color: white;
+  height: 10px;
+  width: 100px;
+  background-color: rgb(209, 209, 209);
+  border-radius: 50px;
+}
+
+.rmp-helper-bar-inner {
+  height: 10px;
+  width: 60%;
   background-color: green;
+  border-radius: 50px;
 }
