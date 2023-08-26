@@ -9,15 +9,14 @@ chrome.runtime.onMessage.addListener(
 )
 // look into mutationObserver for changing webpages
 
-const scanPage = (profList) => {
+const scanPage = (profList, format = 'lastName, firstName') => {
   console.log(profList)
   if (!profList) return
-  const profNames = profList.map(prof => prof.lastName.toLowerCase())
+  // format prof names
+  const profNames = profList.map(prof => format.replace('lastName', prof.lastName).replace('firstName', prof.firstName).toLowerCase())
   console.log(profNames)
-  // let regex = new RegExp(`${profNames.join("|")}(?![^<]*>)`, 'gi')
-  // let replaced = documentText.replaceAll(regex, '<span style="color:red">$&</span>')
 
-
+  // https://stackoverflow.com/questions/57913199/modify-html-while-preserving-the-existing-elements-and-event-listeners
   const span = document.createElement('span');
   span.className = 'rmp-helper-prof';
   span.appendChild(document.createTextNode(''));
@@ -25,6 +24,8 @@ const scanPage = (profList) => {
   // these will display <span> as a literal text per HTML specification
   const skipTags = ['textarea', 'rp'];
   // * symbol obtains all elements
+  const profRegex = new RegExp(`(${profNames.join('|')})`, 'gi')
+  console.log(profRegex)
   for (const ele of document.querySelectorAll('p, a, span')) {
     const walker = document.createTreeWalker(ele, NodeFilter.SHOW_TEXT);
     // collect the nodes first because we can't insert new span nodes while walking
@@ -34,11 +35,21 @@ const scanPage = (profList) => {
         textNodes.push(n);
       }
     }
+    // check if node contains format
+    // find index range of found format and split at that range
+    // surround only found format with span
     for (const n of textNodes) {
       const fragment = document.createDocumentFragment();
-      for (const s of n.nodeValue.split(/(\s+)/)) {
-        if (s.trim() && profNames.includes(s.replace(/[\W_]+/g, "").toLowerCase())) {
+      console.log(n.nodeValue)
+      // console.log(n.nodeValue.split(profRegex))
+
+      for (const s of n.nodeValue.split(profRegex)) {
+        console.log(s)
+        if (!s) continue
+        if (s.trim() && profNames.includes(s.toLowerCase())) {
           span.firstChild.nodeValue = s;
+          fragment.appendChild(span.cloneNode(true));
+          span.firstChild.nodeValue = 'Professor'
           fragment.appendChild(span.cloneNode(true));
         } else {
           fragment.appendChild(document.createTextNode(s));
@@ -48,7 +59,5 @@ const scanPage = (profList) => {
     }
   }
 }
-
-
 
 // TOMORROW: find way to scan page for professor last names and retrieve their html tag
