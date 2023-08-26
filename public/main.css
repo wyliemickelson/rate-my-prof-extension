@@ -1,3 +1,7 @@
-.rmp-helper-prof {
+.rmp-helper-prof, .highlight {
   color: red;
+}
+
+.rmp-helper-rating {
+  background-color: green;
 }
