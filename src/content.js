@@ -14,15 +14,19 @@ const formatNames = (profList, format) => {
   return profList.map(prof => format.replace('lastName', prof.lastName).replace('firstName', prof.firstName).toLowerCase())
 }
 
+const createProfWrapper = () => {
+  const wrapper = document.createElement('span');
+  wrapper.className = 'rmp-helper-prof';
+  wrapper.appendChild(document.createTextNode(''));
+  wrapper.addEventListener('mouseover', () => console.log('hovering'))
+  return wrapper
+}
+
 // https://stackoverflow.com/questions/57913199/modify-html-while-preserving-the-existing-elements-and-event-listeners
 const scanPage = (profList, format = 'lastName, firstName') => {
   if (!profList) return
   const profNames = formatNames(profList, format)
   const profRegex = new RegExp(`(${profNames.join('|')})`, 'gi')
-
-  const span = document.createElement('span');
-  span.className = 'rmp-helper-prof';
-  span.appendChild(document.createTextNode(''));
 
   // these will display <span> as a literal text per HTML specification
   const skipTags = ['textarea', 'rp'];
@@ -31,7 +35,7 @@ const scanPage = (profList, format = 'lastName, firstName') => {
     // collect the nodes first because we can't insert new span nodes while walking
     const textNodes = [];
     for (let n; (n = walker.nextNode());) {
-      if (n.nodeValue.trim() && !skipTags.includes(n.parentNode.localName)) {
+      if (n.nodeValue.trim() && !skipTags.includes(n.parentNode.localName) && !n.parentNode.className.includes('rmp-helper-prof')) {
         textNodes.push(n);
       }
     }
@@ -40,8 +44,9 @@ const scanPage = (profList, format = 'lastName, firstName') => {
       for (const s of n.nodeValue.split(profRegex)) {
         if (!s) continue
         if (s.trim() && profNames.includes(s.toLowerCase())) {
-          span.firstChild.nodeValue = s;
-          fragment.appendChild(span.cloneNode(true));
+          const wrapper = createProfWrapper()
+          wrapper.firstChild.nodeValue = s;
+          fragment.appendChild(wrapper);
           // insert element to display professor rating here
         } else {
           fragment.appendChild(document.createTextNode(s));
