@@ -40,6 +40,8 @@ const highlightPage = (profList, format = 'firstName lastName') => {
   while (match = regex.exec(text)) {
     let ratingInserted = false
     let matchLength = match[0].length;
+    const matchContainer = document.createElement('div')
+    matchContainer.className = 'rmp-helper-match'
 
     // Prevent empty matches causing infinite loops        
     if (!matchLength) {
@@ -77,72 +79,27 @@ const highlightPage = (profList, format = 'firstName lastName') => {
       }
 
       // Highlight the current node
+      let spanNode = document.createElement("span");
+      spanNode.className = "rmp-helper rmp-helper-highlight";
+
       if (!ratingInserted) {
+        // current node is first in match
         // obtain professor data
         const name = match[0]
         const profIndex = profNames.indexOf(name)
         const profData = profList[profIndex]
 
-        // let ratingNode = document.createElement("div");
-        // ratingNode.className = 'rmp-helper-rating'
         const ratingNode = createRating(profData)
-        node.textNode.parentNode.insertBefore(ratingNode, node.textNode)
+        matchContainer.appendChild(ratingNode)
 
         const popup = createPopup(profData)
         ratingNode.appendChild(popup)
+        node.textNode.parentNode.replaceChild(matchContainer, node.textNode);
         ratingInserted = true
       }
-
-      let spanNode = document.createElement("span");
-      spanNode.className = "rmp-helper rmp-helper-highlight";
-      node.textNode.parentNode.replaceChild(spanNode, node.textNode);
+      
       spanNode.appendChild(node.textNode);
+      matchContainer.appendChild(spanNode)
     }
   }
 }
-
-// const createProfWrapper = () => {
-//   const wrapper = document.createElement('span');
-//   wrapper.className = 'rmp-helper-prof';
-//   wrapper.appendChild(document.createTextNode(''));
-//   wrapper.addEventListener('mouseover', () => console.log('hovering'))
-//   return wrapper
-// }
-
-// // https://stackoverflow.com/questions/57913199/modify-html-while-preserving-the-existing-elements-and-event-listeners
-// const scanPage = (profList, format = 'firstName lastName') => {
-//   if (!profList) return
-//   const profNames = formatNames(profList, format)
-//   const profRegex = new RegExp(`(${profNames.join('|')})`, 'gi')
-
-//   // these will display <span> as a literal text per HTML specification
-//   const skipTags = ['textarea', 'rp'];
-//   for (const ele of document.querySelectorAll('p, a, span')) {
-//     const walker = document.createTreeWalker(ele, NodeFilter.SHOW_TEXT);
-//     // collect the nodes first because we can't insert new span nodes while walking
-//     const textNodes = [];
-//     for (let n; (n = walker.nextNode());) {
-//       if (n.nodeValue.trim() && !skipTags.includes(n.parentNode.localName) && !n.parentNode.className.includes('rmp-helper-prof')) {
-//         textNodes.push(n);
-//       }
-//     }
-//     for (const n of textNodes) {
-//       const fragment = document.createDocumentFragment();
-//       for (const s of n.nodeValue.split(profRegex)) {
-//         if (!s) continue
-//         if (s.trim() && profNames.includes(s)) {
-//           const wrapper = createProfWrapper()
-//           wrapper.firstChild.nodeValue = s;
-//           fragment.appendChild(wrapper);
-
-//           // insert element to display professor rating here
-//           const profIndexes = getAllIndexes(s)
-//           createPopup(profIndexes, profList)
-//         } else {
-//           fragment.appendChild(document.createTextNode(s));
-//         }
-//       }
-//       n.parentNode.replaceChild(fragment, n);
-//     }
-//   }
-// }

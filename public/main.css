@@ -2,6 +2,12 @@
   color: red;
 }
 
+.rmp-helper-match {
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+}
+
 .rmp-helper-hidden {
   display: none !important;
 }
@@ -12,9 +18,11 @@
 }
 
 .rmp-helper-rating-text {
+  font-size: 14px;
   width: fit-content;
   background-color: rgb(255, 241, 112);
   padding: 0.3rem;
+  margin-right: 0.2rem;
 }
 
 .rmp-helper-popup, .rmp-helper-popup * {
@@ -28,6 +36,8 @@
 
 .rmp-helper-popup {
   position: absolute;
+  top: 0px;
+  left: 35px;
   z-index: 1;
   border: 3px solid green;
   padding: 1rem;
