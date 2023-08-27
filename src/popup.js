@@ -2,14 +2,17 @@ import { FetchAllProfessors, FetchSchoolNames } from "./fetching.js"
 import { cache } from "./cache.js"
 
 const schoolInput = document.getElementById('schoolQuery')
-const confirmBtn = document.getElementById('confirmBtn')
+const loadProfBtn = document.getElementById('loadProfBtn')
 const shownSchools = document.getElementById('shownSchools')
 const chosenSchool = document.getElementById('currentSchool')
 const scanPageBtn = document.getElementById('scan')
+const loading = document.getElementById('loading')
 
 const initialize = async () => {
+  // get stored school
   const cachedSchool = await cache.getSchool()
   chosenSchool.innerText = cachedSchool?.name ?? 'None'
+  chosenSchool.setAttribute('data-id', cachedSchool?.id ?? '')
 }
 
 const updateResults = async () => {
@@ -30,6 +33,13 @@ const updateResults = async () => {
   })
 }
 
+const startScanner = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { message: 'scan page' }
+    );
+  });
+}
+
 const retrieveProfessors = async () => {
   // get OLD schoolId from storage
   const currentSchool = await cache.getSchool()
@@ -41,14 +51,13 @@ const retrieveProfessors = async () => {
   console.log(currentSchool, newSchool)
   if (currentSchool?.id === newSchool.id) return
   cache.clear()
-
-  FetchAllProfessors(newSchool.id).then(newProfessorList => {
-    cache.updateSchool(newSchool)
-    cache.updateProfessorList(newProfessorList)
-  })
+  await cache.updateSchool(newSchool)
+  await FetchAllProfessors(newSchool.id)
+    .then(newProfessorList => {
+      cache.updateProfessorList(newProfessorList)
+    })
+    .then(startScanner)
 }
-
-// when clicking school li elements, 
 
 const debounce = (func, timeout = 300) => {
   let timer;
@@ -60,20 +69,19 @@ const debounce = (func, timeout = 300) => {
 
 const debouncedUpdateResults = debounce(() => updateResults());
 
+const toggleLoadingUI = () => {
+  loading.classList.toggle('rmp-helper-hidden')
+}
+
 const handleConfirm = () => {
   shownSchools.innerHTML = ''
   schoolInput.value = ''
-  retrieveProfessors()
+  toggleLoadingUI()
+  retrieveProfessors().then(toggleLoadingUI)
 }
 
 schoolInput.addEventListener('keydown', debouncedUpdateResults)
-confirmBtn.addEventListener('click', handleConfirm)
-scanPageBtn.addEventListener('click', () => {
-  console.log('click')
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { message: 'scan page' }
-    );
-  });
-})
+loadProfBtn.addEventListener('click', handleConfirm)
+scanPageBtn.addEventListener('click', startScanner)
 
 initialize()

@@ -2,6 +2,12 @@ export const cache = {
   clear: () => {
     chrome.storage.local.clear()
   },
+  getIsLoading: async () => {
+    return await chrome.storage.local.get('isLoading').then(obj => obj.isLoading)
+  },
+  updateIsLoading: async (bool) => {
+    await chrome.storage.local.set({ isLoading: bool })
+  },
   getSchool: async () => {
     return await chrome.storage.local.get('currentSchool').then(obj => obj.currentSchool)
   },

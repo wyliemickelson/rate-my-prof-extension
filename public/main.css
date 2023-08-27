@@ -35,15 +35,16 @@
 }
 
 .rmp-helper-popup {
-  position: absolute;
-  top: 0px;
-  left: 35px;
+  position: fixed;
+  bottom:0;
+  right:0;
+  /* transform: translateX(-50%); */
   z-index: 1;
   border: 3px solid green;
   padding: 1rem;
   width: fit-content;
   min-width: 200px;
-  max-width: 300px;
+  max-width: 350px;
   display: flex;
   gap: 0.3rem;
   flex-direction: column;

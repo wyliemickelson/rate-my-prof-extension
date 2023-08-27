@@ -1,7 +1,6 @@
 // look into mutationObserver for changing webpages
 import {createRating, createPopup} from './components.js'
 
-chrome.runtime.sendMessage({ message: 'retrieve professors' }, (profList) => highlightPage(profList))
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     if (request.message === 'scan page') {
@@ -16,7 +15,8 @@ const formatNames = (profList, format) => {
 }
 
 // https://stackoverflow.com/questions/31275446/how-to-wrap-part-of-a-text-in-a-node-with-javascript
-const highlightPage = (profList, format = 'firstName lastName') => {
+const highlightPage = (profList, format = 'lastName, firstName') => {
+  if (!profList || profList.length === 0) return
   const profNames = formatNames(profList, format)
   const regex = new RegExp(`(${profNames.join('|')})`, 'g')
   let nodes = [],

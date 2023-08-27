@@ -4,12 +4,19 @@ export const createRating = (profData) => {
   ratingText.className = 'rmp-helper rmp-helper-rating-text'
   ratingText.innerText = profData.avgRating
   ratingDiv.className = 'rmp-helper rmp-helper-rating'
-  ratingText.addEventListener('mouseenter', (e) => e.target.parentNode.querySelector('.rmp-helper-popup')?.classList.remove('rmp-helper-hidden'))
-  ratingText.addEventListener('mouseleave', (e) => e.target.parentNode.querySelector('.rmp-helper-popup')?.classList.add('rmp-helper-hidden'))
+  ratingText.addEventListener('mouseenter', (e) => {
+    const oldPopup = document.querySelector('.rmp-helper-popup-current')
+    console.log(oldPopup)
+    oldPopup?.classList.add('rmp-helper-hidden')
+    oldPopup?.classList.remove('rmp-helper-popup-current')
+    const newPopup = e.target.parentNode.querySelector('.rmp-helper-popup')
+    newPopup?.classList.remove('rmp-helper-hidden')
+    newPopup?.classList.add('rmp-helper-popup-current')
+  })
+  // ratingText.addEventListener('mouseleave', (e) => e.target.parentNode.querySelector('.rmp-helper-popup')?.classList.add('rmp-helper-hidden'))
   ratingDiv.appendChild(ratingText)
   return ratingDiv
 }
-
 export const createPopup = (profData) => {
   const popupInnerHTML = `
     <h3 class="rmp-helper rmp-helper-popup-name">${profData.firstName} ${profData.lastName}</h3>
