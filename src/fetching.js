@@ -10,12 +10,24 @@ const client = new GraphQLClient(API_URL, {
 })
 
 export const FetchAllProfessors = async (schoolID) => {
-  const res = await client.request(QueryAllProfessors, {
-    query: {
-      schoolID
-    }
-  })
-  let professorList = res.search.teachers.edges
+  // cant use graphqlclient due to problems with xmlhttprequest on background script
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: AUTHORIZATION_TOKEN,
+    },
+    body: JSON.stringify({
+      query: QueryAllProfessors,
+      variables: {
+        query: {
+          text: "",
+          schoolID,
+        },
+        schoolID,
+      }
+    })
+  }).then(res => res.json())
+  let professorList = res.data.search.teachers.edges
   professorList = professorList.map(prof => prof.node)
   console.log('Total professors found:', professorList.length)
   return professorList

@@ -1,4 +1,5 @@
 import { cache } from "./cache.js"
+import { FetchAllProfessors, FetchSchoolNames } from "./fetching.js"
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
@@ -6,13 +7,14 @@ chrome.runtime.onMessage.addListener(
       console.log(request)
       cache.getProfessorList().then(id => sendResponse(id));
     }
+    if (request.message === 'fetch professors') {
+      console.log(request)
+      FetchAllProfessors(request.schoolId)
+        .then(newProfessorList => {
+          cache.updateProfessorList(newProfessorList)
+        })
+        .then(() => sendResponse('completed'))
+    }
     return true
   }
 )
-
-// chrome.tabs.onActivated.addListener(async () => {
-//   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-//   console.log(tab)
-//   const response = await chrome.tabs.sendMessage(tab.id, {message: "response from background script"})
-//   console.log(response)
-// })

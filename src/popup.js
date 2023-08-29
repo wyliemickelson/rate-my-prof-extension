@@ -1,4 +1,4 @@
-import { FetchAllProfessors, FetchSchoolNames } from "./fetching.js"
+import { FetchSchoolNames } from "./fetching.js"
 import { cache } from "./cache.js"
 import { debounce } from "./utils.js"
 
@@ -38,6 +38,8 @@ const updateResults = async () => {
   })
 }
 
+const debouncedUpdateResults = debounce(() => updateResults());
+
 const startScanner = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { message: 'scan page' }
@@ -45,26 +47,24 @@ const startScanner = () => {
   });
 }
 
-const retrieveProfessors = async () => {
+const downloadProfessors = async () => {
   // get OLD schoolId from storage
   const currentSchool = await cache.getSchool()
   const newSchool = {
     name: chosenSchool.innerText,
     id: chosenSchool.getAttribute('data-id')
   }
+  
   // if id is not the same, clear cache and retrieve new professors
-  console.log(currentSchool, newSchool)
   if (currentSchool?.id === newSchool.id) return
   cache.clear()
   await cache.updateSchool(newSchool)
-  await FetchAllProfessors(newSchool.id)
-    .then(newProfessorList => {
-      cache.updateProfessorList(newProfessorList)
-    })
-    .then(startScanner)
+  toggleLoadingUI()
+  chrome.runtime.sendMessage({ 
+    message: 'fetch professors',
+    schoolId: newSchool.id,
+  }).then((res) => {if (res === 'completed') toggleLoadingUI() } )
 }
-
-const debouncedUpdateResults = debounce(() => updateResults());
 
 const toggleLoadingUI = () => {
   loading.classList.toggle('rmp-helper-hidden')
@@ -73,8 +73,5 @@ const toggleLoadingUI = () => {
 const handleConfirm = () => {
   shownSchools.innerHTML = ''
   schoolInput.value = ''
-  toggleLoadingUI()
-  retrieveProfessors().then(toggleLoadingUI)
+  downloadProfessors()
 }
-
-// initialize()
