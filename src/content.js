@@ -1,13 +1,15 @@
 // look into mutationObserver for changing webpages
 import { createRating, createPopup } from './components.js'
+import { cache } from './cache.js'
 
 if (!document.getElementById('rmp-helper-popup')) document.body.appendChild(createPopup())
 
 chrome.runtime.onMessage.addListener(
-  (request, sender, sendResponse) => {
+  async (request, sender, sendResponse) => {
     if (request.message === 'scan page') {
       console.log('scanning')
-      chrome.runtime.sendMessage({ message: 'retrieve professors' }, (profList) => highlightPage(profList))
+      const profList = await cache.getProfessorList()
+      highlightPage(profList)
     }
   }
 )
@@ -17,7 +19,7 @@ const formatNames = (profList, format) => {
 }
 
 // https://stackoverflow.com/questions/31275446/how-to-wrap-part-of-a-text-in-a-node-with-javascript
-const highlightPage = (profList, format = 'lastName, firstName') => {
+const highlightPage = (profList, format = 'firstName lastName') => {
   if (!profList || profList.length === 0) return
   const profNames = formatNames(profList, format)
   const regex = new RegExp(`(${profNames.join('|')})`, 'g')
