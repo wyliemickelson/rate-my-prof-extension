@@ -29,6 +29,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/popup.html',
       filename: 'popup.html',
+      inject: false,
     }),
     new CopyPlugin({
       patterns: [

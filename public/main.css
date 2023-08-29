@@ -2,6 +2,20 @@
   color: red;
 }
 
+#rmp-helper-popup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  z-index: 10;
+  width: 250px;
+  bottom:0;
+  right:0;
+  padding: 1rem;
+  border: 2px solid black;
+  background-color: white;
+}
+
 .rmp-helper-match {
   display: flex;
   gap: 0.1rem;
@@ -12,6 +26,22 @@
   display: none !important;
 }
 
+.rmp-helper-green {
+  background-color: rgb(127, 246, 195);
+}
+
+.rmp-helper-yellow {
+  background-color: rgb(255, 241, 112);
+}
+
+.rmp-helper-red {
+  background-color: rgb(255, 156, 156);
+}
+
+.rmp-helper-grey {
+  background-color: rgb(228, 228, 228);
+}
+
 .rmp-helper-rating {
   width: fit-content;
   position: relative;
@@ -20,7 +50,6 @@
 .rmp-helper-rating-text {
   font-size: 14px;
   width: fit-content;
-  background-color: rgb(255, 241, 112);
   padding: 0.3rem;
   margin-right: 0.2rem;
 }
@@ -32,23 +61,6 @@
   padding: 0;
   box-sizing: border-box;
   font-style: inherit;
-}
-
-.rmp-helper-popup {
-  position: fixed;
-  bottom:0;
-  right:0;
-  /* transform: translateX(-50%); */
-  z-index: 1;
-  border: 3px solid green;
-  padding: 1rem;
-  width: fit-content;
-  min-width: 200px;
-  max-width: 350px;
-  display: flex;
-  gap: 0.3rem;
-  flex-direction: column;
-
 }
 
 .rmp-divider {

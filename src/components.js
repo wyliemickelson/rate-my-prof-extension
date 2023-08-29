@@ -1,43 +1,43 @@
+import { templates } from "./constants"
+
+const ratingHoverEvent = (e) => {
+  const profId = e.target.getAttribute('data-rmp-helper-id')
+  const profData = JSON.parse(sessionStorage.getItem(profId))
+  const dataCard = document.getElementById('rmp-helper-popup')
+  dataCard.querySelector('.rmp-helper-popup-name').innerText = `${profData.firstName} ${profData.lastName}`
+  dataCard.querySelector('.rmp-helper-popup-department').innerText = profData.department
+  dataCard.querySelector('.rmp-helper-popup-score').innerText = profData.avgRating
+  dataCard.querySelector('.rmp-helper-popup-reviews').innerText = `${profData.numRatings} review(s)`
+  dataCard.querySelector('.rmp-helper-difficulty-text').innerText = `${profData.avgDifficulty} / 5.0`
+}
+
+const getRatingColor = (profData) => {
+  if (profData.numRatings === 0) return 'rmp-helper-grey'
+  if (profData.avgRating >= 4.0) return 'rmp-helper-green'
+  if (profData.avgRating >= 3.0) return 'rmp-helper-yellow'
+  if (profData.avgRating < 3.0) return 'rmp-helper-red'
+}
+
 export const createRating = (profData) => {
   let ratingDiv = document.createElement("div");
   let ratingText = document.createElement("p")
   ratingText.className = 'rmp-helper rmp-helper-rating-text'
+  ratingText.classList.add(getRatingColor(profData))
   ratingText.innerText = profData.avgRating
   ratingDiv.className = 'rmp-helper rmp-helper-rating'
-  ratingText.addEventListener('mouseenter', (e) => {
-    const oldPopup = document.querySelector('.rmp-helper-popup-current')
-    console.log(oldPopup)
-    oldPopup?.classList.add('rmp-helper-hidden')
-    oldPopup?.classList.remove('rmp-helper-popup-current')
-    const newPopup = e.target.parentNode.querySelector('.rmp-helper-popup')
-    newPopup?.classList.remove('rmp-helper-hidden')
-    newPopup?.classList.add('rmp-helper-popup-current')
-  })
-  // ratingText.addEventListener('mouseleave', (e) => e.target.parentNode.querySelector('.rmp-helper-popup')?.classList.add('rmp-helper-hidden'))
+
+  ratingText.setAttribute('data-rmp-helper-id', `${profData.id}`)
+
+  ratingText.addEventListener('mouseenter', (e) => ratingHoverEvent(e))
   ratingDiv.appendChild(ratingText)
   return ratingDiv
 }
-export const createPopup = (profData) => {
-  const popupInnerHTML = `
-    <h3 class="rmp-helper rmp-helper-popup-name">${profData.firstName} ${profData.lastName}</h3>
-    <p class="rmp-helper rmp-helper-popup-department">${profData.department}</p>
-    <div class="rmp-helper rmp-helper-popup-rating">
-      <div class="rmp-helper rmp-helper-popup-score">${profData.avgRating}</div>
-      <div class="rmp-helper rmp-divider"></div>
-      <p class="rmp-helper rmp-helper-popup-reviews">${profData.numRatings} review(s)</p>
-    </div>
-    <div class="rmp-helper rmp-helper-popup-difficulty">
-      <p class="rmp-helper">Level of Difficulty</p>
-      <div class="rmp-helper rmp-helper-difficulty-wrapper">
-        <div class="rmp-helper rmp-helper-bar-outer">
-          <div class="rmp-helper rmp-helper-bar-inner"></div>
-        </div>
-        <p class="rmp-helper">${profData.avgDifficulty} / 5.0</p>
-      </div>
-    </div>`
 
+export const createPopup = () => {
+  // add button to toggle minimize
   const popup = document.createElement('div')
-  popup.className = 'rmp-helper rmp-helper-popup rmp-helper-hidden'
-  popup.innerHTML = popupInnerHTML
+  popup.id = 'rmp-helper-popup'
+  popup.className = 'rmp-helper'
+  popup.innerHTML = templates.popupInnerHTML
   return popup
 }

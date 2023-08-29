@@ -1,5 +1,7 @@
 // look into mutationObserver for changing webpages
-import {createRating, createPopup} from './components.js'
+import { createRating, createPopup } from './components.js'
+
+if (!document.getElementById('rmp-helper-popup')) document.body.appendChild(createPopup())
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
@@ -42,7 +44,6 @@ const highlightPage = (profList, format = 'lastName, firstName') => {
     let matchLength = match[0].length;
     const matchContainer = document.createElement('div')
     matchContainer.className = 'rmp-helper-match'
-
     // Prevent empty matches causing infinite loops        
     if (!matchLength) {
       regex.lastIndex++;
@@ -88,16 +89,15 @@ const highlightPage = (profList, format = 'lastName, firstName') => {
         const name = match[0]
         const profIndex = profNames.indexOf(name)
         const profData = profList[profIndex]
+        sessionStorage.setItem(profData.id, JSON.stringify(profData))
 
         const ratingNode = createRating(profData)
         matchContainer.appendChild(ratingNode)
 
-        const popup = createPopup(profData)
-        ratingNode.appendChild(popup)
         node.textNode.parentNode.replaceChild(matchContainer, node.textNode);
         ratingInserted = true
       }
-      
+
       spanNode.appendChild(node.textNode);
       matchContainer.appendChild(spanNode)
     }
