@@ -1,4 +1,5 @@
 import { templates } from "./constants"
+import { getRatingColor } from "./utils"
 
 const ratingHoverEvent = (e) => {
   const profId = e.target.getAttribute('data-rmp-helper-id')
@@ -9,13 +10,6 @@ const ratingHoverEvent = (e) => {
   dataCard.querySelector('.rmp-helper-popup-score').innerText = profData.avgRating
   dataCard.querySelector('.rmp-helper-popup-reviews').innerText = `${profData.numRatings} review(s)`
   dataCard.querySelector('.rmp-helper-difficulty-text').innerText = `${profData.avgDifficulty} / 5.0`
-}
-
-const getRatingColor = (profData) => {
-  if (profData.numRatings === 0) return 'rmp-helper-grey'
-  if (profData.avgRating >= 4.0) return 'rmp-helper-green'
-  if (profData.avgRating >= 3.0) return 'rmp-helper-yellow'
-  if (profData.avgRating < 3.0) return 'rmp-helper-red'
 }
 
 export const createRating = (profData) => {

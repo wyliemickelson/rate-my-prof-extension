@@ -1,5 +1,6 @@
 import { FetchAllProfessors, FetchSchoolNames } from "./fetching.js"
 import { cache } from "./cache.js"
+import { debounce } from "./utils.js"
 
 const schoolInput = document.getElementById('schoolQuery')
 const loadProfBtn = document.getElementById('loadProfBtn')
@@ -8,12 +9,16 @@ const chosenSchool = document.getElementById('currentSchool')
 const scanPageBtn = document.getElementById('scan')
 const loading = document.getElementById('loading')
 
-const initialize = async () => {
+const initialize = (async () => {
   // get stored school
   const cachedSchool = await cache.getSchool()
   chosenSchool.innerText = cachedSchool?.name ?? 'None'
   chosenSchool.setAttribute('data-id', cachedSchool?.id ?? '')
-}
+
+  schoolInput.addEventListener('keydown', debouncedUpdateResults)
+  loadProfBtn.addEventListener('click', handleConfirm)
+  scanPageBtn.addEventListener('click', startScanner)
+})()
 
 const updateResults = async () => {
   shownSchools.innerHTML = ''
@@ -59,14 +64,6 @@ const retrieveProfessors = async () => {
     .then(startScanner)
 }
 
-const debounce = (func, timeout = 300) => {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
-  };
-}
-
 const debouncedUpdateResults = debounce(() => updateResults());
 
 const toggleLoadingUI = () => {
@@ -80,8 +77,4 @@ const handleConfirm = () => {
   retrieveProfessors().then(toggleLoadingUI)
 }
 
-schoolInput.addEventListener('keydown', debouncedUpdateResults)
-loadProfBtn.addEventListener('click', handleConfirm)
-scanPageBtn.addEventListener('click', startScanner)
-
-initialize()
+// initialize()
