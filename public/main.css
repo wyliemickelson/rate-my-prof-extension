@@ -2,6 +2,13 @@
   color: red;
 }
 
+body {
+  min-width: 500px;
+}
+#rmp-helper-options {
+  min-width: 500px;
+}
+
 #rmp-helper-popup {
   position: fixed;
   display: flex;

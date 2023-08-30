@@ -1,7 +1,6 @@
-import { cache } from "./cache"
 import { templates } from "./constants"
 import { getRatingColor, getDifficultyColor } from "./utils"
-import { highlightPage } from "./content"
+// import { highlightPage } from "./content"
 
 const ratingHoverEvent = (e) => {
   const profId = e.target.getAttribute('data-rmp-helper-id')
@@ -66,10 +65,7 @@ export const createPopup = () => {
   const popupNav = document.createElement('div')
   popupNav.innerHTML = templates.popupNavInnerHTML
   popupNav.className = 'rmp-helper rmp-helper-popup-nav'
-  popupNav.querySelector('#rmp-helper-nav-update').addEventListener('click', async () => {
-    const profList = await cache.getProfessorList()
-    highlightPage(profList)
-  })
+  // popupNav.querySelector('#rmp-helper-nav-update').addEventListener('click', highlightPage)
   popupNav.querySelector('#rmp-helper-nav-toggle').addEventListener('click', togglePopup)
 
   const popupProfData = document.createElement('div')

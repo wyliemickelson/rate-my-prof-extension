@@ -8,6 +8,12 @@ export const cache = {
   updateIsLoading: async (bool) => {
     await chrome.storage.local.set({ isLoading: bool })
   },
+  updateNameFormat: async (newFormat) => {
+    return await chrome.storage.local.set({ nameFormat: newFormat })
+  },
+  getNameFormat: async () => {
+    return await chrome.storage.local.get('nameFormat').then(obj => obj.nameFormat)
+  },
   getSchool: async () => {
     return await chrome.storage.local.get('currentSchool').then(obj => obj.currentSchool)
   },
