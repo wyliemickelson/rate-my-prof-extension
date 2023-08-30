@@ -18,5 +18,10 @@ export const templates = {
       </div>
       <p class="rmp-helper rmp-helper-difficulty-text"></p>
     </div>
-  </div>`
+  </div>`,
+
+  popupNavInnerHTML: `
+  <button class="rmp-helper" id="rmp-helper-nav-update">Update Page</button>
+  <button class="rmp-helper" id="rmp-helper-nav-toggle">Minimize</button>
+  `
 }

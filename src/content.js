@@ -2,7 +2,7 @@
 import { createRating, createPopup } from './components.js'
 import { cache } from './cache.js'
 
-if (!document.getElementById('rmp-helper-popup')) document.body.appendChild(createPopup())
+if (!document.getElementById('rmp-helper-popup')) createPopup()
 
 chrome.runtime.onMessage.addListener(
   async (request, sender, sendResponse) => {
@@ -19,7 +19,7 @@ const formatNames = (profList, format) => {
 }
 
 // https://stackoverflow.com/questions/31275446/how-to-wrap-part-of-a-text-in-a-node-with-javascript
-const highlightPage = (profList, format = 'firstName lastName') => {
+export const highlightPage = (profList, format = 'firstName lastName') => {
   if (!profList || profList.length === 0) return
   const profNames = formatNames(profList, format)
   const regex = new RegExp(`(${profNames.join('|')})`, 'g')
