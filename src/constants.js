@@ -3,7 +3,7 @@ export const AUTHORIZATION_TOKEN = "Basic dGVzdDp0ZXN0"
 
 export const templates = {
   popupInnerHTML: `
-  <h3 class="rmp-helper rmp-helper-popup-name"></h3>
+  <a class="rmp-helper rmp-helper-popup-name"></a>
   <p class="rmp-helper rmp-helper-popup-department"></p>
   <div class="rmp-helper rmp-helper-popup-rating">
     <div class="rmp-helper rmp-helper-popup-score"></div>

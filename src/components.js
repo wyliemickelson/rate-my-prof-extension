@@ -8,6 +8,7 @@ const ratingHoverEvent = (e) => {
   const profData = JSON.parse(sessionStorage.getItem(profId))
   const dataCard = document.getElementById('rmp-helper-popup')
   dataCard.querySelector('.rmp-helper-popup-name').innerText = `${profData.firstName} ${profData.lastName}`
+  dataCard.querySelector('.rmp-helper-popup-name').setAttribute('href', `https://www.ratemyprofessors.com/professor/${profData.legacyId}`)
   dataCard.querySelector('.rmp-helper-popup-department').innerText = profData.department
 
   const ratingText = dataCard.querySelector('.rmp-helper-popup-score')
