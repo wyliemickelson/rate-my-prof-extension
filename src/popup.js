@@ -1,6 +1,6 @@
 import { FetchSchoolNames } from "./fetching.js"
 import { cache } from "./cache.js"
-import { debounce } from "./utils.js"
+import { debounce, debounceLeading } from "./utils.js"
 
 const schoolInput = document.getElementById('schoolQuery')
 const loadProfBtn = document.getElementById('loadProfBtn')
@@ -33,7 +33,7 @@ const updateResults = async () => {
   schoolList.forEach(school => {
     const li = document.createElement('li')
     li.setAttribute('data-id', school.id)
-    li.innerText = school.name
+    li.innerText = `${school.name} | ${school.city}, ${school.state}`
     li.addEventListener('click', (e) => {
       chosenSchool.innerText = e.target.innerText
       chosenSchool.setAttribute('data-id', e.target.getAttribute('data-id'))
@@ -53,7 +53,7 @@ const downloadProfessors = async () => {
   }
   
   // if id is not the same, clear cache and retrieve new professors
-  if (currentSchool?.id === newSchool.id) return
+  // if (currentSchool?.id === newSchool.id) return
   await cache.updateProfessorList(null)
   await cache.updateSchool(newSchool)
   toggleLoadingUI()
@@ -63,12 +63,14 @@ const downloadProfessors = async () => {
   }).then((res) => {if (res === 'completed') toggleLoadingUI() } )
 }
 
+const debouncedDownloadProfessors = debounceLeading(() => downloadProfessors(), 10000)
+
 const toggleLoadingUI = () => {
-  loading.classList.toggle('rmp-helper-hidden')
+  loading.classList.toggle('hidden')
 }
 
 const handleConfirm = () => {
   shownSchools.innerHTML = ''
   schoolInput.value = ''
-  downloadProfessors()
+  debouncedDownloadProfessors()
 }

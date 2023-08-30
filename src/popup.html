@@ -1,20 +1,36 @@
 <html>
   <head>
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./popup.css" />
     <script defer src="popup.js"></script>
   </head>
   <body>
-    <p id="loading" class="rmp-helper-hidden">Loading...</p>
-    <h1>RMP Helper</h1>
-    <p>Professor Name Format</p>
-    <p>Enter the name format of professors as shown in your school's registration page. E.g: lastName, firstName for a professor labeled Doe, John</p>
-    <input type="text" id="nameFormat" value="lastName, firstName">
-    <button id="saveFormatBtn">Save Format</button>
-    <p>Chosen School: <span id="currentSchool"></span></p>
-    <button id="loadProfBtn">Load Professors</button>
-    <div>
-      <input placeholder="Search schools..." type="text" id="schoolQuery" />
+    <p id="loading" class="hidden">
+      Loading professors, please wait...
+    </p>
+    <div class="popup-wrapper">
+      <h1>RMP Helper</h1>
+      <h3>Professor Name Format</h3>
+      <p>
+        Enter the name format of professors as shown in your school's
+        registration page, including spaces and special characters. E.g:
+        lastName, firstName for a professor labeled Doe, John
+      </p>
+      <div>
+        <input type="text" id="nameFormat" value="lastName, firstName" />
+        <button id="saveFormatBtn">Save Format</button>
+      </div>
+      <div class="current-school">
+        <div>
+          <h3 style="display: inline">Current School:</h3>
+          <span id="currentSchool"></span>
+        </div>
+        <button id="loadProfBtn">Save + Load Professors</button>
+      </div>
+      <div>
+        <input placeholder="Search schools..." type="text" id="schoolQuery" />
+        <ul id="shownSchools">
+        </ul>
+      </div>
     </div>
-    <ul id="shownSchools"></ul>
   </body>
 </html>

@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+input {
+  padding: 0.4rem;
+  width: 200px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+body {
+  min-width: 500px;
+  width: 500px;
+}
+
+.popup-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p {
+  font-size: 13px;
+}
+
+#currentSchool {
+  font-style: italic;
+  font-size: 16px;
+}
+
+#loading {
+  color: red;
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+
+#shownSchools {
+  margin-top: 0.5rem;
+  list-style: none;
+  /* padding-left: 1rem; */
+  max-height: 200px;
+  overflow-y: auto;
+  direction: rtl;
+}
+
+li {
+  direction: ltr;
+  text-align: left;
+  margin-left: 1rem;
+  padding-block: 0.25rem;
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+button {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: #4299e1;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  width: fit-content;
+}
+
+button:hover {
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+}
+
+.current-school {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  justify-content: center;
+}

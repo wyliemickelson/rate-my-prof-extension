@@ -9,6 +9,18 @@
     "tabs",
     "activeTab"
   ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "Poppins-Bold.ttf",
+        "Poppins-Regular.ttf"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
   "host_permissions": [
     "https://www.ratemyprofessors.com/*",
     "http://*/*",
@@ -23,9 +35,16 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"],
-      "css": ["main.css"]
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "main.css"
+      ]
     }
   ]
 }

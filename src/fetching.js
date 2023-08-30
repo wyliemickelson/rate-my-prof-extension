@@ -11,7 +11,7 @@ const client = new GraphQLClient(API_URL, {
 
 export const FetchAllProfessors = async (schoolID) => {
   // cant use graphqlclient due to problems with xmlhttprequest on background script
-  const res = await fetch(API_URL, {
+  return await fetch(API_URL, {
     method: 'POST',
     headers: {
       Authorization: AUTHORIZATION_TOKEN,
@@ -27,10 +27,12 @@ export const FetchAllProfessors = async (schoolID) => {
       }
     })
   }).then(res => res.json())
-  let professorList = res.data.search.teachers.edges
-  professorList = professorList.map(prof => prof.node)
-  console.log('Total professors found:', professorList.length)
-  return professorList
+  .then(res => {
+    let professorList = res.data.search.teachers.edges
+    professorList = professorList.map(prof => prof.node)
+    console.log('Total professors found:', professorList.length)
+    return professorList
+  })
 }
 
 export const FetchSchoolNames = async (text) => {

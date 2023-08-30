@@ -20,7 +20,7 @@ export const highlightPage = async () => {
     nodeIterator = document.createNodeIterator(document, NodeFilter.SHOW_TEXT, null, false);
 
   while (node = nodeIterator.nextNode()) {
-    if (node.parentNode.className.includes('rmp-helper')) continue
+    if (node.parentNode.classList.contains('rmp-helper')) continue
     nodes.push({
       textNode: node,
       start: text.length

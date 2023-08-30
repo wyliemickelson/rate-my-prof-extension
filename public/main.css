@@ -1,28 +1,66 @@
+/* ----- Reset and utils ----- */
+.rmp-helper {
+  all: unset;
+  display: block;
+  font-family: Tahoma, sans-serif;
+  font-size: 13px;
+}
 .rmp-helper-highlight {
   color: red;
+  font: inherit;
+}
+.rmp-helper-hidden {
+  display: none !important;
+}
+.rmp-helper-green {
+  background-color: rgb(127, 246, 195);
+}
+.rmp-helper-yellow {
+  background-color: rgb(255, 241, 112);
+}
+.rmp-helper-red {
+  background-color: rgb(255, 156, 156);
+}
+.rmp-helper-grey {
+  background-color: rgb(228, 228, 228);
+}
+button.rmp-helper {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: #4299e1;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  width: fit-content;
+}
+button.rmp-helper:hover {
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
-body {
-  min-width: 500px;
-}
-#rmp-helper-options {
-  min-width: 500px;
-}
-
+/* ----- Wrappers ----- */
 #rmp-helper-popup {
   position: fixed;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
   z-index: 100000;
-  width: 250px;
-  bottom:0;
-  right:0;
-  padding: 1rem;
+  max-width: 350px;
+  padding: 0;
+  bottom: 0;
+  right: 0;
+}
+.rmp-helper-popup-data {
   border: 2px solid black;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   background-color: white;
 }
-
 #rmp-helper-maximize {
   position: fixed;
   bottom: 0;
@@ -30,101 +68,78 @@ body {
   z-index: 100000;
 }
 
-.rmp-helper-match {
-  display: flex;
-  gap: 0.1rem;
-  align-items: center;
+/* ----- Difficulty Bar ----- */
+.rmp-divider {
+  border-right: 1px solid black;
+  height: 15px;
 }
-
-.rmp-helper-hidden {
-  display: none !important;
-}
-
-.rmp-helper-green {
-  background-color: rgb(127, 246, 195);
-}
-
-.rmp-helper-yellow {
-  background-color: rgb(255, 241, 112);
-}
-
-.rmp-helper-red {
-  background-color: rgb(255, 156, 156);
-}
-
-.rmp-helper-grey {
+.rmp-helper-bar-outer {
+  background-color: white;
+  height: 10px;
+  width: 100px;
   background-color: rgb(228, 228, 228);
+  border-radius: 50px;
 }
-
-.rmp-helper-rating {
-  width: fit-content;
-  position: relative;
+.rmp-helper-bar-inner {
+  height: 10px;
+  width: 60%;
+  border-radius: 50px;
 }
-
 .rmp-helper-rating-text {
   font-size: 14px;
+  font-family: inherit;
+  font-weight: regular;
   width: fit-content;
   padding: 0.3rem;
   margin-right: 0.2rem;
 }
 
-.rmp-helper-popup, .rmp-helper-popup * {
-  /* border: 1px solid red; */
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-style: inherit;
+.rmp-helper-popup-nav {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: flex-end;
 }
 
-.rmp-divider {
-  border-right: 1px solid black;
-  height: 15px;
-}
+/* /////////////////////////////// */
 
+.rmp-helper-match {
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+}
+.rmp-helper-rating {
+  width: fit-content;
+  position: relative;
+}
 .rmp-helper-popup-name {
   font-weight: bold;
+  font-size: 18px;
+  text-decoration: underline;
 }
-
+.rmp-helper-popup-name:hover {
+  cursor: pointer;
+  color: #4299e1;
+}
 .rmp-helper-popup-department {
   color: gray;
   font-size: 0.87em;
+  margin-top: 0.5rem;
 }
-
 .rmp-helper-popup-rating {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
 .rmp-helper-popup-score {
   padding: 0.3rem;
 }
-
-.rmp-helper-popup-reviews {
-
+.rmp-helper-popup-difficulty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-
-.rmp-helper-popup-difficulty p {
-  margin-bottom: 0.2rem;
-}
-
 .rmp-helper-difficulty-wrapper {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.rmp-helper-bar-outer {
-  background-color: white;
-  height: 10px;
-  width: 100px;
-  background-color: rgb(209, 209, 209);
-  border-radius: 50px;
-}
-
-.rmp-helper-bar-inner {
-  height: 10px;
-  width: 60%;
-  border-radius: 50px;
 }
