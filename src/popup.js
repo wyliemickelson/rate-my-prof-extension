@@ -12,7 +12,6 @@ const saveFormatBtn = document.getElementById('saveFormatBtn')
 const lastSaved = document.getElementById('lastSaved')
 
 const initialize = (async () => {
-  // get stored school
   const cachedSchool = await cache.getSchool()
   const cachedNameFormat = await cache.getNameFormat()
   const cachedLastSaved = await cache.getLastSaved()
@@ -52,7 +51,6 @@ const updateResults = async () => {
   const searchQuery = schoolInput.value
   if (searchQuery === '') return
   const schoolList = await FetchSchoolNames(searchQuery)
-  console.log(schoolList)
   schoolList.forEach(school => {
     const li = document.createElement('li')
     li.setAttribute('data-id', school.id)
@@ -68,15 +66,11 @@ const updateResults = async () => {
 const debouncedUpdateResults = debounce(() => updateResults());
 
 const downloadProfessors = async () => {
-  // get OLD schoolId from storage
-  const currentSchool = await cache.getSchool()
   const newSchool = {
     name: chosenSchool.innerText,
     id: chosenSchool.getAttribute('data-id')
   }
 
-  // if id is not the same, clear cache and retrieve new professors
-  // if (currentSchool?.id === newSchool.id) return
   await cache.updateProfessorList(null)
   await cache.updateSchool(newSchool)
   await cache.updateLastSaved('N/A')
@@ -92,15 +86,15 @@ const downloadProfessors = async () => {
   })
 }
 
-const setLastSaved = async () => {
-  lastSaved.classList.add('green')
-  lastSaved.innerText = await cache.getLastSaved()
-}
-
 const debouncedDownloadProfessors = debounceLeading(() => downloadProfessors(), 10000)
 
 const toggleLoadingUI = () => {
   loading.classList.toggle('hidden')
+}
+
+const setLastSaved = async () => {
+  lastSaved.classList.add('green')
+  lastSaved.innerText = await cache.getLastSaved()
 }
 
 const handleConfirm = () => {

@@ -1,4 +1,3 @@
-// look into mutationObserver for changing webpages
 import { createRating, createPopup } from './components.js'
 import { cache } from './cache.js'
 
