@@ -6,6 +6,7 @@ const ratingHoverEvent = (e) => {
   const profId = e.target.getAttribute('data-rmp-helper-id')
   const profData = JSON.parse(sessionStorage.getItem(profId))
   const dataCard = document.getElementById('rmp-helper-popup')
+  dataCard.querySelector('.rmp-helper-popup-data').classList.remove('rmp-helper-hidden')
   dataCard.querySelector('.rmp-helper-popup-name').innerText = `${profData.firstName} ${profData.lastName}`
   dataCard.querySelector('.rmp-helper-popup-name').setAttribute('href', `https://www.ratemyprofessors.com/professor/${profData.legacyId}`)
   dataCard.querySelector('.rmp-helper-popup-department').innerText = profData.department
@@ -24,7 +25,7 @@ const ratingHoverEvent = (e) => {
   difficultyBarInner.classList.add(getDifficultyColor(profData))
 }
 
-const clearColorClasses = (ele) => {ele.classList.remove('rmp-helper-green', 'rmp-helper-yellow', 'rmp-helper-red')}
+const clearColorClasses = (ele) => {ele.classList.remove('rmp-helper-green', 'rmp-helper-yellow', 'rmp-helper-red', 'rmp-helper-grey')}
 const formatRating = (rating) => rating.toString().includes('.') ? rating : `${rating}.0`
 
 export const createRating = (profData) => {
@@ -74,7 +75,7 @@ export const createPopup = () => {
 
   const maximizeBtn = document.createElement('button')
   maximizeBtn.addEventListener('click', togglePopup)
-  maximizeBtn.innerText = 'RMP-Helper'
+  maximizeBtn.innerText = 'RMP-H'
   maximizeBtn.classList.add('rmp-helper')
   maximizeBtn.id = 'rmp-helper-maximize'
   document.body.appendChild(maximizeBtn)

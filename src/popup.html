@@ -18,13 +18,20 @@
       <div>
         <input type="text" id="nameFormat" value="lastName, firstName" />
         <button id="saveFormatBtn">Save Format</button>
+        <span id="formatInfoTag"></span>
       </div>
       <div class="current-school">
         <div>
           <h3 style="display: inline">Current School:</h3>
           <span id="currentSchool"></span>
         </div>
-        <button id="loadProfBtn">Save + Load Professors</button>
+        <div class="loadProf">
+          <button id="loadProfBtn">Save + Load Professors</button>
+          <div class="loadProfInfo">
+            <p>(Takes up to 30 seconds)</p>
+            <p>Last saved: <span id="lastSaved">8/30/23 8:32 PM</span></p>
+          </div>
+        </div>
       </div>
       <div>
         <input placeholder="Search schools..." type="text" id="schoolQuery" />

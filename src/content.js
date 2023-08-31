@@ -20,7 +20,7 @@ export const highlightPage = async () => {
     nodeIterator = document.createNodeIterator(document, NodeFilter.SHOW_TEXT, null, false);
 
   while (node = nodeIterator.nextNode()) {
-    if (node.parentNode.classList.contains('rmp-helper')) continue
+    if (node.parentNode.classList.contains('rmp-helper') || node.parentNode.classList.contains('rmp-helper-highlight')) continue
     nodes.push({
       textNode: node,
       start: text.length
@@ -74,7 +74,7 @@ export const highlightPage = async () => {
 
       // Highlight the current node
       let spanNode = document.createElement("span");
-      spanNode.className = "rmp-helper rmp-helper-highlight";
+      spanNode.className = "rmp-helper-highlight";
 
       if (!ratingInserted) {
         // current node is first in match

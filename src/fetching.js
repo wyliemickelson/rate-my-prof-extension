@@ -2,6 +2,7 @@ import { QueryAllProfessors } from './graphql/QueryAllProfessors.js';
 import { QuerySchools } from './graphql/QuerySchools.js';
 import { GraphQLClient } from 'graphql-request'
 import { API_URL, AUTHORIZATION_TOKEN } from './constants.js';
+import { cache } from './cache.js';
 
 const client = new GraphQLClient(API_URL, {
   headers: {
@@ -27,7 +28,8 @@ export const FetchAllProfessors = async (schoolID) => {
       }
     })
   }).then(res => res.json())
-  .then(res => {
+  .then(async (res) => {
+    await cache.updateLastSaved(new Date().toLocaleString())
     let professorList = res.data.search.teachers.edges
     professorList = professorList.map(prof => prof.node)
     console.log('Total professors found:', professorList.length)

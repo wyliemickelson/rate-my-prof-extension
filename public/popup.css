@@ -38,6 +38,20 @@ p {
   font-size: 13px;
 }
 
+.green {
+  color: green;
+}
+
+.saveText {
+  color: green;
+  padding: 0.5rem;
+}
+
+.errorText {
+  color: red;
+  padding: 0.5rem;
+}
+
 #currentSchool {
   font-style: italic;
   font-size: 16px;
@@ -58,6 +72,22 @@ p {
   direction: rtl;
 }
 
+.loadProf {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loadProfInfo {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.loadProfInfo * {
+  font-size: 10px;
+}
+
 li {
   direction: ltr;
   text-align: left;
@@ -67,6 +97,7 @@ li {
 
 li:hover {
   cursor: pointer;
+  color: #4299e1;
 }
 
 button {

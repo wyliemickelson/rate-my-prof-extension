@@ -8,6 +8,12 @@ export const cache = {
   updateIsLoading: async (bool) => {
     await chrome.storage.local.set({ isLoading: bool })
   },
+  getLastSaved: async () => {
+    return await chrome.storage.local.get('LastSaved').then(obj => obj.LastSaved)
+  },
+  updateLastSaved: async (timeStr) => {
+    await chrome.storage.local.set({ LastSaved: timeStr })
+  },
   updateNameFormat: async (newFormat) => {
     return await chrome.storage.local.set({ nameFormat: newFormat })
   },
