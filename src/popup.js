@@ -15,6 +15,7 @@ const initialize = (async () => {
   const cachedSchool = await cache.getSchool()
   const cachedNameFormat = await cache.getNameFormat()
   const cachedLastSaved = await cache.getLastSaved()
+  lastSaved.classList.remove('green')
   lastSaved.innerText = cachedLastSaved ?? 'N/A'
   chosenSchool.innerText = cachedSchool?.name ?? 'None'
   chosenSchool.setAttribute('data-id', cachedSchool?.id ?? '')
