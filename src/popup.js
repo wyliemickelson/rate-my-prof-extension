@@ -7,45 +7,18 @@ const loadProfBtn = document.getElementById('loadProfBtn')
 const shownSchools = document.getElementById('shownSchools')
 const chosenSchool = document.getElementById('currentSchool')
 const loading = document.getElementById('loading')
-const nameFormatInput = document.getElementById('nameFormat')
-const saveFormatBtn = document.getElementById('saveFormatBtn')
 const lastSaved = document.getElementById('lastSaved')
 
 const initialize = (async () => {
   const cachedSchool = await cache.getSchool()
-  const cachedNameFormat = await cache.getNameFormat()
   const cachedLastSaved = await cache.getLastSaved()
   lastSaved.classList.remove('green')
   lastSaved.innerText = cachedLastSaved ?? 'N/A'
   chosenSchool.innerText = cachedSchool?.name ?? 'None'
   chosenSchool.setAttribute('data-id', cachedSchool?.id ?? '')
-  
-
-  nameFormatInput.value = cachedNameFormat ?? 'lastName, firstName'
-
-  saveFormatBtn.addEventListener('click', (e) => {
-    const isValidFormat = checkFormat()
-    insertInfoTag(isValidFormat, e.target)
-    if (!isValidFormat) return
-    cache.updateNameFormat(nameFormatInput.value)
-  })
   schoolInput.addEventListener('keydown', debouncedUpdateResults)
   loadProfBtn.addEventListener('click', handleConfirm)
 })()
-
-const checkFormat = () => {
-  const formatText = nameFormatInput.value
-  if (!formatText.includes('firstName') || !formatText.includes('lastName')) return false
-  return true
-}
-
-const insertInfoTag = (isValidFormat, siblingBefore) => {
-  const infoTag = document.getElementById('formatInfoTag')
-  infoTag.innerText = isValidFormat  ? 'Saved.' : 'Invalid Format.'
-  infoTag.classList.remove(!isValidFormat  ? 'saveText' : 'errorText')
-  infoTag.classList.add(isValidFormat  ? 'saveText' : 'errorText')
-  siblingBefore.after(infoTag)
-}
 
 const updateResults = async () => {
   shownSchools.innerHTML = ''

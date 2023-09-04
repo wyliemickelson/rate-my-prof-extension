@@ -1,13 +1,12 @@
 import { createRating, createPopup } from './components.js'
 import { cache } from './cache.js'
 
-const formatNames = (profList, format) => {
+const createPatterns = (profList) => {
+  const pattern = 'firstN(?:[a-z \\.\\-,]*?)lastN|lastN(?:[a-z \\.\\-,]*?)firstN'
   return profList.map(prof => {
-    return format
-    .replace('lName', prof.lastName)
-    .replace('fName', prof.firstName)
-    .replace('mName', '(?:[a-z]*)?\\.?')
-    .replace('middleInitial', '(?:[a-z]*)?\\.?')
+    return pattern
+      .replaceAll('lastN', prof.lastName)
+      .replaceAll('firstN', prof.firstName)
   })
 }
 
@@ -15,11 +14,10 @@ const formatNames = (profList, format) => {
 export const highlightPage = async () => {
   console.time("Scanner")
   const profList = await cache.getProfessorList()
-  const format = await cache.getNameFormat()
 
   if (!profList || profList.length === 0) return
-  const profNames = formatNames(profList, format)
-  const regex = new RegExp(`${profNames.join('|')}`, 'gi')
+  const profPatterns = createPatterns(profList)
+  const regex = new RegExp(`${profPatterns.join('|')}`, 'gi')
   console.log(regex)
   let nodes = [],
     text = "",
@@ -41,6 +39,7 @@ export const highlightPage = async () => {
 
   let match;
   while (match = regex.exec(text)) {
+    document.body.style.cursor = 'wait'
     let ratingInserted = false
     let matchLength = match[0].length;
     const matchContainer = document.createElement('div')
@@ -89,24 +88,27 @@ export const highlightPage = async () => {
         // obtain professor data
 
         let name = match[0]
-        name = name.split(/\W/gi)
+        name = name.split(/[^a-z\-]/gi)
         // first and last names should be at either end of the split
         if (name.length > 2) name.splice(1, name.length - 2)
         let [firstName, lastName] = name
         const profData = profList.find(prof => ((prof.firstName === firstName && prof.lastName === lastName) || (prof.firstName === lastName && prof.lastName === firstName)))
-        sessionStorage.setItem(profData.id, JSON.stringify(profData))
+        if (profData) {
+          sessionStorage.setItem(profData.id, JSON.stringify(profData))
 
-        const ratingNode = createRating(profData)
-        matchContainer.appendChild(ratingNode)
+          const ratingNode = createRating(profData)
+          matchContainer.appendChild(ratingNode)
 
+          ratingInserted = true
+        }
         node.textNode.parentNode.replaceChild(matchContainer, node.textNode);
-        ratingInserted = true
       }
 
       spanNode.appendChild(node.textNode);
       matchContainer.appendChild(spanNode)
     }
   }
+  document.body.style.cursor = 'default'
   console.timeEnd("Scanner")
 }
 
