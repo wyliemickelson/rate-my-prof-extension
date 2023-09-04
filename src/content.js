@@ -2,17 +2,25 @@ import { createRating, createPopup } from './components.js'
 import { cache } from './cache.js'
 
 const formatNames = (profList, format) => {
-  return profList.map(prof => format.replace('lastName', prof.lastName).replace('firstName', prof.firstName))
+  return profList.map(prof => {
+    return format
+    .replace('lName', prof.lastName)
+    .replace('fName', prof.firstName)
+    .replace('mName', '(?:[a-z]*)?\\.?')
+    .replace('middleInitial', '(?:[a-z]*)?\\.?')
+  })
 }
 
 // https://stackoverflow.com/questions/31275446/how-to-wrap-part-of-a-text-in-a-node-with-javascript
 export const highlightPage = async () => {
+  console.time("Scanner")
   const profList = await cache.getProfessorList()
   const format = await cache.getNameFormat()
 
   if (!profList || profList.length === 0) return
   const profNames = formatNames(profList, format)
-  const regex = new RegExp(`(${profNames.join('|')})`, 'g')
+  const regex = new RegExp(`${profNames.join('|')}`, 'gi')
+  console.log(regex)
   let nodes = [],
     text = "",
     node,
@@ -20,6 +28,7 @@ export const highlightPage = async () => {
 
   while (node = nodeIterator.nextNode()) {
     if (node.parentNode.classList.contains('rmp-helper') || node.parentNode.classList.contains('rmp-helper-highlight')) continue
+    if (node.nodeValue.match(/{|}|\[|\]|<|>/g)) continue // skips unnecessary content, saving multiple seconds
     nodes.push({
       textNode: node,
       start: text.length
@@ -78,9 +87,13 @@ export const highlightPage = async () => {
       if (!ratingInserted) {
         // current node is first in match
         // obtain professor data
-        const name = match[0]
-        const profIndex = profNames.indexOf(name)
-        const profData = profList[profIndex]
+
+        let name = match[0]
+        name = name.split(/\W/gi)
+        // first and last names should be at either end of the split
+        if (name.length > 2) name.splice(1, name.length - 2)
+        let [firstName, lastName] = name
+        const profData = profList.find(prof => ((prof.firstName === firstName && prof.lastName === lastName) || (prof.firstName === lastName && prof.lastName === firstName)))
         sessionStorage.setItem(profData.id, JSON.stringify(profData))
 
         const ratingNode = createRating(profData)
@@ -94,6 +107,7 @@ export const highlightPage = async () => {
       matchContainer.appendChild(spanNode)
     }
   }
+  console.timeEnd("Scanner")
 }
 
 const initialize = (() => {

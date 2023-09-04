@@ -32,8 +32,8 @@
     {
       "run_at": "document_idle",
       "matches": [
-        "http://*.edu/*",
-        "https://*.edu/*"
+        "http://*/*",
+        "https://*/*"
       ],
       "js": [
         "content.js"
