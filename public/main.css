@@ -148,3 +148,34 @@ button.rmp-helper:hover {
   align-items: center;
   gap: 0.5rem;
 }
+
+/* LOADING ANIMATIONS */
+#rmp-scanner-loading {
+  position: absolute;
+  left: -28px;
+}
+
+.rmp-loading {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+}
+.rmp-loading:after {
+  content: " ";
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 3px;
+  border-radius: 50%;
+  border: 3px solid #4299e1;
+  border-color: #4299e1 transparent #4299e1 transparent;
+  animation: rmp-loading 1.2s linear infinite;
+}
+@keyframes rmp-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

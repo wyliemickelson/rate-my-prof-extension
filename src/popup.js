@@ -48,22 +48,22 @@ const downloadProfessors = async () => {
   await cache.updateProfessorList(null)
   await cache.updateSchool(newSchool)
   await cache.updateLastSaved('N/A')
-  toggleLoadingUI()
+  toggleLoadingUI(true)
   chrome.runtime.sendMessage({
     message: 'fetch professors',
     schoolId: newSchool.id,
   }).then((res) => {
     if (res === 'completed') {
-      toggleLoadingUI()
+      toggleLoadingUI(false)
       setLastSaved()
     }
-  })
+  }).catch(e => {})
 }
 
 const debouncedDownloadProfessors = debounceLeading(() => downloadProfessors(), 10000)
 
-const toggleLoadingUI = () => {
-  loading.classList.toggle('hidden')
+const toggleLoadingUI = (on) => {
+  loading.classList[on ? 'remove' : 'add']('hidden')
 }
 
 const setLastSaved = async () => {

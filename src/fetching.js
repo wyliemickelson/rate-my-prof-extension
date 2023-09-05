@@ -28,23 +28,24 @@ export const FetchAllProfessors = async (schoolID) => {
       }
     })
   }).then(res => res.json())
-  .then(async (res) => {
-    await cache.updateLastSaved(new Date().toLocaleString())
-    let professorList = res.data.search.teachers.edges
-    professorList = professorList.map(prof => prof.node)
-    console.log('Total professors found:', professorList.length)
-    return professorList
-  })
+    .then(async (res) => {
+      await cache.updateLastSaved(new Date().toLocaleString())
+      let professorList = res.data.search.teachers.edges
+      professorList = professorList.map(prof => prof.node)
+      console.log('Total professors found:', professorList.length)
+      return professorList
+    }).catch(e => console.error(`Unable to fetch professors: ${e.stack}`))
 }
 
 export const FetchSchoolNames = async (text) => {
-  const res = await client.request(QuerySchools, {
+  return await client.request(QuerySchools, {
     query: {
       text
     }
-  })
-  let schoolList = res.newSearch.schools.edges
-  schoolList = schoolList.map(school => school.node)
-  console.log('Total schools found:', schoolList.length)
-  return schoolList
+  }).then(res => {
+    let schoolList = res.newSearch.schools.edges
+    schoolList = schoolList.map(school => school.node)
+    console.log('Total schools found:', schoolList.length)
+    return schoolList
+  }).catch(e => console.error(`Unable to fetch school names: ${e.stack}`))
 }

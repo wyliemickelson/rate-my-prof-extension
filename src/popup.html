@@ -4,18 +4,16 @@
     <script defer src="popup.js"></script>
   </head>
   <body>
-    <p id="loading" class="hidden">
-      Loading professors, please wait...
-    </p>
     <div class="popup-wrapper">
       <h1>RMP Helper</h1>
       <div class="current-school">
         <div>
           <h3 style="display: inline">Current School:</h3>
-          <span id="currentSchool"></span>
+          <p id="currentSchool"></p>
         </div>
         <div class="loadProf">
           <button id="loadProfBtn">Save + Load Professors</button>
+          <div id="loading" class="hidden rmp-loading"></div>
           <div class="loadProfInfo">
             <p>(Takes up to 30 seconds)</p>
             <p>Last saved: <span id="lastSaved">8/30/23 8:32 PM</span></p>

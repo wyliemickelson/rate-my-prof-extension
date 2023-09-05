@@ -27,6 +27,7 @@ export const templates = {
   </div>`,
 
   popupNavInnerHTML: `
+  <div class="rmp-helper rmp-helper-hidden rmp-loading" id="rmp-scanner-loading"></div>
   <button class="rmp-helper" id="rmp-helper-nav-update">
     Update Page
   </button>

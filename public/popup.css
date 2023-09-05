@@ -4,7 +4,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 input {
@@ -55,12 +55,6 @@ p {
 #currentSchool {
   font-style: italic;
   font-size: 16px;
-}
-
-#loading {
-  color: red;
-  padding-top: 1rem;
-  padding-left: 1rem;
 }
 
 #shownSchools {
@@ -125,4 +119,29 @@ button:hover {
   gap: 0.5rem;
   flex-direction: column;
   justify-content: center;
+}
+
+.rmp-loading {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+}
+.rmp-loading:after {
+  content: " ";
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 3px;
+  border-radius: 50%;
+  border: 3px solid #4299e1;
+  border-color: #4299e1 transparent #4299e1 transparent;
+  animation: rmp-loading 1.2s linear infinite;
+}
+@keyframes rmp-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
