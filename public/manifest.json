@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Rate My Professor Helper",
   "description": "Display your college's professor ratings directly on your school's registration page.", 
-  "version": "1.1.0",
+  "version": "1.2.0",
   "icons": {
     "16": "./assets/grad-cap-16.png",
     "32": "./assets/grad-cap-32.png",
@@ -32,8 +32,8 @@
     {
       "run_at": "document_idle",
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "http://*.edu/*",
+        "https://*.edu/*"
       ],
       "js": [
         "content.js"
