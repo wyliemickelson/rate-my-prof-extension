@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "build-dev": "webpack --config webpack.config.cjs --mode development",
-    "build-prod": "webpack --config webpack.config.cjs --mode production"
+    "build-dev": "webpack --config webpack.config.cjs --mode development && cp manifest-firefox.json dist/manifest.json",
+    "build-prod": "webpack --config webpack.config.cjs --mode production && cp manifest-chrome.json dist/manifest.json",
+    "build-prod-ff": "webpack --config webpack.config.cjs --mode production && cp manifest-firefox.json dist/manifest.json"
   },
   "author": "",
   "license": "ISC",

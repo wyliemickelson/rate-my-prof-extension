@@ -92,9 +92,8 @@ export const highlighter = async () => {
         if (!ratingInserted) {
           // current node is first in match
           // obtain professor data
-
           let name = match[0]
-          name = name.split(/[^a-z\-]/gi)
+          name = name.split(/[^a-z\-']/gi)
           // first and last names should be at either end of the split
           if (name.length > 2) name.splice(1, name.length - 2)
           let [firstName, lastName] = name
